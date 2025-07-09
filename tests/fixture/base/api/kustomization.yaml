@@ -8,6 +8,7 @@ labels:
     app: api
   includeSelectors: true
 patches:
+- path: initcontainer.yaml
 - target:
     kind: Deployment
     name: base
@@ -15,4 +16,3 @@ patches:
     - op: replace
       path: /metadata/name
       value: api
-

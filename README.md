@@ -60,7 +60,11 @@ Default: All direct subdirectories that contain a `kustomization.yaml`
 
 The package provides these helper functions:
 
-* `resolve_configmaps()` resolves `envFrom` references to `ConfigMap`s in `Deployment`s. It takes a list of yaml dicts (usually `kustomize_resources[environment]`) and returns a `dict[str, dict[str, str]]`, deploment name: {key: value}.
+* `resolve_configmaps()` resolves `envFrom` references to `ConfigMap`s in `Deployment`s. It takes a list of yaml dicts (usually `kustomize_resources[environment]`) and returns a `dict[str, dict[str, str]]`, deployment+container name: {key: value}.
+  The dict keys work as follows:
+  * Containers are named `{deployment}-{container}`
+  * Init Containers are named `{deployment}-init-{container}`
+  * For convenience, the first container is also available just under the name `{deployment}`, and the first init container as `{deployment}-init`
 * `extract_externalsecret_data()` extracts the `data` sections of all `ExternalSecret` resources. It takes a list of yaml dicts and returns `{"key_in_secret": {"key": "example/vault/path", "property": "token"}}`
 
 These take an optional `name_transform` callable which defaults to `lambda x: x.rsplit('-', 1)[0]`, to normalize e.g. kustomize-generated `ConfigMap` names like `project-44fb7dkk64`.

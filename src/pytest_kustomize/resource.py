@@ -15,17 +15,31 @@ def by_kind(manifest, kind, name_transform=split_dash):
 def resolve_configmaps(manifest, name_transform=split_dash):
     result = {}
     configmaps = {k: v.get("data", {}) for k, v in by_kind(manifest, "ConfigMap").items()}
-    for name, deployment in by_kind(manifest, "Deployment").items():
-        config = result[name] = {}
-        for container in deployment["spec"]["template"]["spec"]["containers"]:
-            if "envFrom" in container:
-                for item in container["envFrom"]:
-                    if "configMapRef" not in item:
-                        continue
-                    config.update(configmaps[name_transform(item["configMapRef"]["name"])])
-                # XXX Assumption of exactly one "real" Container per Deployment
-                break
+    for depl_name, deployment in by_kind(manifest, "Deployment").items():
+        for i, container in enumerate(
+            deployment["spec"]["template"]["spec"].get("containers", ()),
+        ):
+            name, config = _container_config(container, configmaps, name_transform)
+            result[f"{depl_name}-{name}"] = config
+            if i == 0:  # convenience
+                result[depl_name] = config
+
+        for i, container in enumerate(
+            deployment["spec"]["template"]["spec"].get("initContainers", ())
+        ):
+            name, config = _container_config(container, configmaps, name_transform)
+            result[f"{depl_name}-init-{name}"] = config
+            if i == 0:  # convenience
+                result[f"{depl_name}-init"] = config
     return result
+
+
+def _container_config(container, configmaps, name_transform):
+    config = {}
+    for item in container.get("envFrom", ()):
+        if "configMapRef" in item:
+            config.update(configmaps[name_transform(item["configMapRef"]["name"])])
+    return name_transform(container["name"]), config
 
 
 def extract_externalsecret_data(manifest, name_transform=split_dash):
