@@ -63,4 +63,4 @@ The package provides these helper functions:
 * `resolve_configmaps()` resolves `envFrom` references to `ConfigMap`s in `Deployment`s. It takes a list of yaml dicts (usually `kustomize_resources[environment]`) and returns a `dict[str, dict[str, str]]`, deploment name: {key: value}.
 * `extract_externalsecret_data()` extracts the `data` sections of all `ExternalSecret` resources. It takes a list of yaml dicts and returns `{"key_in_secret": {"key": "example/vault/path", "property": "token"}}`
 
-These take an optional `name_transform` callable which defaults to `lambda x: x.split('-')[0]`, to normalize e.g. kustomize-generated `ConfigMap` names like `project-44fb7dkk64`.
+These take an optional `name_transform` callable which defaults to `lambda x: x.rsplit('-', 1)[0]`, to normalize e.g. kustomize-generated `ConfigMap` names like `project-44fb7dkk64`.

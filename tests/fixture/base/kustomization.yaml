@@ -10,3 +10,6 @@ configMapGenerator:
 - name: project
   envs:
   - config.txt
+- name: project-dummy
+  literals:
+  - global_setting=7

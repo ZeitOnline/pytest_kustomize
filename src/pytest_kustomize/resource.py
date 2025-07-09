@@ -1,5 +1,5 @@
 def split_dash(text):
-    return text.split("-")[0]
+    return text.rsplit("-", 1)[0]
 
 
 def by_kind(manifest, kind, name_transform=split_dash):
