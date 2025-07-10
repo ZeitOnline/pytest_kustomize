@@ -7,7 +7,7 @@ dependencies = [
     "pyyaml",
 ]
 
-authors = [{name="DIET ZEIT", email="engineering@zeit.de"}]
+authors = [{name="DIE ZEIT", email="engineering@zeit.de"}]
 license = {text="BSD-3-Clause"}
 urls = {repository="https://github.com/ZeitOnline/pytest_kustomize"}
 requires-python = ">=3.7"
