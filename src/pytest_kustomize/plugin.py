@@ -2,6 +2,7 @@ import os
 import os.path
 import subprocess
 
+import jq
 import pytest
 import yaml
 
@@ -45,3 +46,11 @@ def kustomize_manifests(request, kustomize_root_directory, kustomize_environment
 @pytest.fixture(scope="session")
 def kustomize_resources(kustomize_manifests):
     return {k: list(yaml.safe_load_all(v)) for k, v in kustomize_manifests.items()}
+
+
+@pytest.fixture(scope="session")
+def kustomize_jq(kustomize_resources):
+    def _jq_k(query: str, environment: str) -> jq._ProgramWithInput:
+        return jq.compile(query).input_value(kustomize_resources[environment])
+
+    return _jq_k
