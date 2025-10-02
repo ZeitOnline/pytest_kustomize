@@ -684,7 +684,7 @@ wheels = [
 
 [[package]]
 name = "pytest-kustomize"
-version = "1.2.0.dev0"
+version = "1.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "jq", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },

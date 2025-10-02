@@ -2,6 +2,13 @@
 
 <!-- towncrier release notes start -->
 
+## 1.2.0 (2025-10-02)
+
+### 
+
+- Allow querying manifests via jq
+
+
 ## 1.1.0 (2025-07-09)
 
 ### 
