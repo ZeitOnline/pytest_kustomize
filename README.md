@@ -23,6 +23,14 @@ def test_database_matches_environment(kustomize_resources, environment, value):
 def test_production_has_no_staging_vault_paths(kustomize_resources):
     for secret in extract_externalsecret_data(kustomize_resources["production"]).values():
         assert "staging" not in secret["key"]
+
+
+@pytest.mark.parametrize("environment", ["staging", "production"])
+def test_jq(kustomize_jq, environment):
+    for apiVersion in kustomize_jq(
+        """.[] | select(."kind"=="ConfigMap").apiVersion""", environment
+    ):
+        assert apiVersion == "v1"
 ```
 
 
@@ -32,7 +40,7 @@ You can access the kustomize output as follows:
 
 * The `kustomize_manifests` fixture returns a `dict[str, str]`, environment name: `kustomize build` output
 * The `kustomize_resources` fixture returns a `dict[str, List[dict]]`, environment name: yaml-parsed output
-
+* The `kustomize_jq` fixture returns a query helper which applies a ![jq query string](https://jqlang.org/) to the given environment and returns an instance of ![`jq._ProgramWithInput`](https://github.com/mwilliamson/jq.py?tab=readme-ov-file#output-methods).
 
 Optionally, define the directory where kustomize manifests are looked up by providing this fixture
 
