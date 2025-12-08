@@ -1,10 +1,9 @@
 [project]
 name = "pytest_kustomize"
 description = "Parse and validate kustomize output"
-version = "1.3.0.dev0"
+version = "1.2.1.dev0"
 
 dependencies = [
-    "jq>=1.8.0",
     "pyyaml",
 ]
 
@@ -14,6 +13,11 @@ urls = {repository="https://github.com/ZeitOnline/pytest_kustomize"}
 requires-python = ">=3.7"
 
 dynamic = ["readme"]
+
+[project.optional-dependencies]
+jq = [
+    "jq>=1.8.0",
+]
 
 [dependency-groups]
 dev = ["pytest"]

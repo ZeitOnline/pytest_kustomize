@@ -41,6 +41,7 @@ You can access the kustomize output as follows:
 * The `kustomize_manifests` fixture returns a `dict[str, str]`, environment name: `kustomize build` output
 * The `kustomize_resources` fixture returns a `dict[str, List[dict]]`, environment name: yaml-parsed output
 * The `kustomize_jq` fixture returns a query helper which applies a ![jq query string](https://jqlang.org/) to the given environment and returns an instance of ![`jq._ProgramWithInput`](https://github.com/mwilliamson/jq.py?tab=readme-ov-file#output-methods).
+  Only available by explicitly installing `jq` (or `pytest_kustomize[jq]`)
 
 Optionally, define the directory where kustomize manifests are looked up by providing this fixture
 
