@@ -2,7 +2,6 @@ import os
 import os.path
 import subprocess
 
-import jq
 import pytest
 import yaml
 
@@ -50,6 +49,8 @@ def kustomize_resources(kustomize_manifests):
 
 @pytest.fixture(scope="session")
 def kustomize_jq(kustomize_resources):
+    import jq  # optional dependency
+
     def _jq_k(query: str, environment: str) -> jq._ProgramWithInput:
         return jq.compile(query).input_value(kustomize_resources[environment])
 
