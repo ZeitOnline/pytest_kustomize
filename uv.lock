@@ -684,13 +684,17 @@ wheels = [
 
 [[package]]
 name = "pytest-kustomize"
-version = "1.3.0.dev0"
+version = "1.3.0"
 source = { editable = "." }
 dependencies = [
-    { name = "jq", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
-    { name = "jq", version = "1.10.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.8'" },
     { name = "pyyaml", version = "6.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
     { name = "pyyaml", version = "6.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.8'" },
+]
+
+[package.optional-dependencies]
+jq = [
+    { name = "jq", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
+    { name = "jq", version = "1.10.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.8'" },
 ]
 
 [package.dev-dependencies]
@@ -706,9 +710,10 @@ release = [
 
 [package.metadata]
 requires-dist = [
-    { name = "jq", specifier = ">=1.8.0" },
+    { name = "jq", marker = "extra == 'jq'", specifier = ">=1.8.0" },
     { name = "pyyaml" },
 ]
+provides-extras = ["jq"]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest" }]
